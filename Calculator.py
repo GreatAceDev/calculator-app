@@ -644,7 +644,7 @@ def read_root():
             <div class="hero-content">
                 <h1 class="brand">The Great Ace Hub</h1>
                 <p class="tagline">Your hub for amazing apps and tools. Discover, download, and create.</p>
-                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." onkeyup="filterApps(this.value)"
+                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." onkeyup="filterApps(this.value)">
                 <button class="cta-button" onclick="showCalculator()">Use Calculator</button>
             </div>
         </div>
@@ -843,44 +843,21 @@ def read_root():
                 }
             });
 
-            let currentCategory = 'all';
-
-function filterApps(category) {
-    // 1. Update Category if a button was clicked
-    if (category) {
-        currentCategory = category;
-        // Update button colors
-        const buttons = document.querySelectorAll('.tab-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        if (event && event.target && event.target.classList.contains('tab-btn')) {
-            event.target.classList.add('active');
-        }
-    }
-
-    // 2. Get Search Text
-    const searchTerm = document.getElementById('searchBox').value.toLowerCase().trim();
-    
-    // 3. Get all the main App Cards (not the things inside them!)
-    const cards = document.querySelectorAll('.app-card');
-
-    cards.forEach(card => {
-        // Look at the title and the category assigned to the card
-        const title = card.querySelector('.app-title')?.innerText.toLowerCase() || "";
-        const cardCategory = card.getAttribute('data-category') || "all";
-
-        // Check if it matches the tab AND the search box
-        const matchesTab = (currentCategory === 'all' || cardCategory === currentCategory);
-        const matchesSearch = title.includes(searchTerm);
-
-        // Show the whole card only if BOTH are true
-        if (matchesTab && matchesSearch) {
-            card.style.display = ""; // Shows the card with its color box intact
-        } else {
-            card.style.display = "none"; // Hides the whole card
-        }
-    });
-}
-
+            function filterApps(category) {
+                currentFilter = category;
+                const cards = document.querySelectorAll('.app-card');
+                const buttons = document.querySelectorAll('.tab-btn');
+                
+                buttons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                cards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
             }
 
             function showCalculator() {
