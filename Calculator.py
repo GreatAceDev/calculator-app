@@ -41,11 +41,12 @@ def read_root():
                 top: 0;
                 left: 0;
                 right: 0;
-                z-index: 100;
+                z-index: 1000;
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
                 border-bottom: 1px solid rgba(100, 116, 139, 0.1);
                 padding: 1rem 2rem;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             }
 
             .logo-container {
@@ -555,7 +556,7 @@ def read_root():
     <body>
         <header class="site-header">
             <div class="logo-container">
-                <img src="/static/Untitled_design__2_2.04-removebg-preview.png" alt="Ace Hub Logo" class="site-logo">
+                <img src="/static/Untitled_design__2_2.04-removebg-preview.png" alt="Ace Hub Logo" class="site-logo" onerror="console.log('Logo failed to load')">
             </div>
         </header>
         <div class="hero">
