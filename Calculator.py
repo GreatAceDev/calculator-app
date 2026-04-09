@@ -843,27 +843,40 @@ def read_root():
                 }
             });
 
-            function filterApps() {
-    // 1. Get the search text and clean it up
-    const input = document.getElementById('searchBox');
-    if (!input) return;
-    const filter = input.value.toLowerCase().trim();
+            let currentCategory = 'all';
 
-    // 2. Find every "Featured App" container
-    // We search for 'div' because it's a safe bet for your cards
-    const cards = document.querySelectorAll('.featured-grid div, .app-card');
+function filterApps(category) {
+    // 1. Update Category if a button was clicked
+    if (category) {
+        currentCategory = category;
+        // Update button colors
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        if (event && event.target && event.target.classList.contains('tab-btn')) {
+            event.target.classList.add('active');
+        }
+    }
+
+    // 2. Get Search Text
+    const searchTerm = document.getElementById('searchBox').value.toLowerCase().trim();
+    
+    // 3. Get all the main App Cards (not the things inside them!)
+    const cards = document.querySelectorAll('.app-card');
 
     cards.forEach(card => {
-        // Only filter actual card elements (the ones with text inside)
-        if (card.innerText && card.innerText.length > 1) {
-            const text = card.innerText.toLowerCase();
-            
-            // Show the card if it contains the search text
-            if (text.includes(filter)) {
-                card.style.display = ""; // Standard display
-            } else {
-                card.style.display = "none"; // Hide it
-            }
+        // Look at the title and the category assigned to the card
+        const title = card.querySelector('.app-title')?.innerText.toLowerCase() || "";
+        const cardCategory = card.getAttribute('data-category') || "all";
+
+        // Check if it matches the tab AND the search box
+        const matchesTab = (currentCategory === 'all' || cardCategory === currentCategory);
+        const matchesSearch = title.includes(searchTerm);
+
+        // Show the whole card only if BOTH are true
+        if (matchesTab && matchesSearch) {
+            card.style.display = ""; // Shows the card with its color box intact
+        } else {
+            card.style.display = "none"; // Hides the whole card
         }
     });
 }
