@@ -25,14 +25,14 @@ def read_root():
         <title>Ace</title>
         <style>
             :root {
-                --bg: #0f172a;
-                --surface: #1e293b;
-                --surface-2: #334155;
-                --accent: #38bdf8;
+                --bg: #ffffff;
+                --surface: #f8fafc;
+                --surface-2: #e2e8f0;
+                --accent: #3b82f6;
                 --accent-2: #8b5cf6;
-                --text: #e2e8f0;
-                --muted: #94a3b8;
-                --border: rgba(148, 163, 184, 0.18);
+                --text: #1e293b;
+                --muted: #64748b;
+                --border: rgba(100, 116, 139, 0.2);
                 font-family: 'Inter', system-ui, sans-serif;
             }
 
@@ -40,9 +40,7 @@ def read_root():
             body {
                 margin: 0;
                 min-height: 100vh;
-                background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 30%),
-                            radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.16), transparent 35%),
-                            var(--bg);
+                background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
                 color: var(--text);
                 overflow-x: hidden;
             }
@@ -74,8 +72,8 @@ def read_root():
                 max-width: 500px;
                 padding: 1rem 1.5rem;
                 border-radius: 50px;
-                background: rgba(30, 41, 59, 0.8);
-                border: 2px solid rgba(56, 189, 248, 0.3);
+                background: rgba(241, 245, 249, 0.8);
+                border: 2px solid rgba(59, 130, 246, 0.3);
                 color: var(--text);
                 font-size: 1rem;
                 margin-bottom: 2rem;
@@ -141,8 +139,8 @@ def read_root():
 
             .app-card {
                 border-radius: 16px;
-                background: linear-gradient(180deg, rgba(30,41,59,0.6), rgba(15,23,42,0.8));
-                border: 1px solid rgba(148, 163, 184, 0.12);
+                background: linear-gradient(180deg, rgba(248,250,252,0.8), rgba(226,232,240,0.9));
+                border: 1px solid rgba(100, 116, 139, 0.2);
                 padding: 1.5rem;
                 transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
@@ -232,7 +230,7 @@ def read_root():
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(15, 23, 42, 0.95);
+                background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
                 z-index: 1000;
                 justify-content: center;
@@ -248,9 +246,9 @@ def read_root():
                 width: min(420px, calc(100vw - 2rem));
                 border-radius: 32px;
                 padding: 2rem;
-                background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(30,41,59,0.95));
-                box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
-                border: 1px solid rgba(148, 163, 184, 0.12);
+                background: linear-gradient(180deg, rgba(248,250,252,0.98), rgba(226,232,240,0.95));
+                box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(100, 116, 139, 0.2);
                 position: relative;
             }
 
@@ -258,8 +256,8 @@ def read_root():
                 position: absolute;
                 top: 1rem;
                 right: 1rem;
-                background: rgba(248, 113, 113, 0.18);
-                color: #fecaca;
+                background: rgba(239, 68, 68, 0.15);
+                color: #dc2626;
                 border: none;
                 border-radius: 50%;
                 width: 40px;
@@ -291,8 +289,8 @@ def read_root():
                 border-radius: 1.5rem;
                 padding: 1rem 1.25rem;
                 margin-bottom: 1.5rem;
-                background: rgba(15, 23, 42, 0.8);
-                border: 1px solid rgba(148, 163, 184, 0.16);
+                background: rgba(241, 245, 249, 0.8);
+                border: 1px solid rgba(100, 116, 139, 0.2);
                 color: var(--text);
                 font-size: 2rem;
                 text-align: right;
@@ -320,36 +318,36 @@ def read_root():
                 font-size: 1.1rem;
                 font-weight: 600;
                 color: var(--text);
-                background: rgba(148, 163, 184, 0.08);
+                background: rgba(241, 245, 249, 0.8);
                 cursor: pointer;
                 transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
-                box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.06);
+                box-shadow: inset 0 0 0 1px rgba(100, 116, 139, 0.2);
             }
 
             .calculator button:hover {
                 transform: translateY(-1px);
-                background: rgba(148, 163, 184, 0.14);
+                background: rgba(241, 245, 249, 0.9);
             }
 
             .calculator button:active {
                 transform: translateY(0);
-                background: rgba(148, 163, 184, 0.2);
+                background: rgba(226, 232, 240, 0.9);
             }
 
             .calculator button.operator {
-                background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(139, 92, 246, 0.22));
-                color: #eff6ff;
+                background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+                color: var(--text);
             }
 
             .calculator button.clear {
-                background: rgba(248, 113, 113, 0.18);
-                color: #fecaca;
+                background: rgba(239, 68, 68, 0.15);
+                color: #dc2626;
             }
 
             .calculator button.equals {
                 grid-column: span 2;
-                background: linear-gradient(135deg, #38bdf8, #8b5cf6);
-                color: #0f172a;
+                background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                color: #ffffff;
             }
 
             .time-converter-section {
@@ -359,7 +357,7 @@ def read_root():
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: rgba(15, 23, 42, 0.95);
+                background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
                 z-index: 1000;
                 justify-content: center;
@@ -375,9 +373,9 @@ def read_root():
                 width: min(500px, calc(100vw - 2rem));
                 border-radius: 32px;
                 padding: 2rem;
-                background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(30,41,59,0.95));
-                box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
-                border: 1px solid rgba(148, 163, 184, 0.12);
+                background: linear-gradient(180deg, rgba(248,250,252,0.98), rgba(226,232,240,0.95));
+                box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15);
+                border: 1px solid rgba(100, 116, 139, 0.2);
                 position: relative;
             }
 
@@ -385,8 +383,8 @@ def read_root():
                 position: absolute;
                 top: 1rem;
                 right: 1rem;
-                background: rgba(248, 113, 113, 0.18);
-                color: #fecaca;
+                background: rgba(239, 68, 68, 0.15);
+                color: #dc2626;
                 border: none;
                 border-radius: 50%;
                 width: 40px;
@@ -433,8 +431,8 @@ def read_root():
                 flex: 1;
                 padding: 0.8rem;
                 border-radius: 8px;
-                background: rgba(15, 23, 42, 0.8);
-                border: 1px solid rgba(148, 163, 184, 0.16);
+                background: rgba(241, 245, 249, 0.8);
+                border: 1px solid rgba(100, 116, 139, 0.2);
                 color: var(--text);
                 font-size: 1rem;
             }
@@ -464,8 +462,8 @@ def read_root():
                 margin-top: 1.5rem;
                 padding: 1rem;
                 border-radius: 12px;
-                background: rgba(15, 23, 42, 0.6);
-                border: 1px solid rgba(148, 163, 184, 0.12);
+                background: rgba(241, 245, 249, 0.6);
+                border: 1px solid rgba(100, 116, 139, 0.2);
             }
 
             .result-item {
@@ -568,6 +566,58 @@ def read_root():
                     <div class="app-title">Sample Game</div>
                     <div class="app-description">Fun browser-based game available for download.</div>
                     <button class="app-download-btn" onclick="alert('Coming Soon!')">Download</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sonic-section">
+            <h2>Check Out These Sonic Fan Games</h2>
+            <div class="sonic-grid">
+                <div class="sonic-card">
+                    <h3>Moon Facility</h3>
+                    <p>A challenging Sonic fan game with unique levels and mechanics.</p>
+                    <a href="https://moonfacility.com" target="_blank" class="sonic-link">Visit Moon Facility</a>
+                </div>
+                <div class="sonic-card">
+                    <h3>Fallen Star</h3>
+                    <p>An epic Sonic adventure with story-driven gameplay.</p>
+                    <a href="https://fallenstarsonic.com" target="_blank" class="sonic-link">Visit Fallen Star</a>
+                </div>
+                <div class="sonic-card">
+                    <h3>SRB2 (Sonic Robo Blast 2)</h3>
+                    <p>The classic 3D Sonic fan game with multiplayer and custom levels.</p>
+                    <a href="https://srb2.org" target="_blank" class="sonic-link">Visit SRB2</a>
+                </div>
+                <div class="sonic-card">
+                    <h3>SRB2 Kart</h3>
+                    <p>Racing fun with Sonic characters in this kart racing spin-off.</p>
+                    <a href="https://srb2.org/kart" target="_blank" class="sonic-link">Visit SRB2 Kart</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <h3>Connect & Download</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/GreatAceDev" target="_blank" class="social-link github">
+                            <span>🐙</span> GitHub - Get the Apps
+                        </a>
+                        <a href="https://github.com/GreatAceDev/calculator-app" target="_blank" class="social-link">
+                            <span>📱</span> Ace App Hub Source
+                        </a>
+                        <a href="https://discord.gg/sonic" target="_blank" class="social-link">
+                            <span>💬</span> Sonic Community Discord
+                        </a>
+                        <a href="https://twitter.com/sonic" target="_blank" class="social-link">
+                            <span>🐦</span> Follow Sonic News
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-info">
+                    <p>&copy; 2026 Ace App Hub. Made with ❤️ for the Sonic community.</p>
+                    <p>Built with FastAPI, featuring calculator and time converter tools.</p>
                 </div>
             </div>
         </div>
