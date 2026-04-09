@@ -690,12 +690,12 @@ def read_root():
                 <div class="sonic-card">
                     <h3>Moon Facility</h3>
                     <p>A challenging Sonic fan game with unique levels and mechanics.</p>
-                    <a href="https://moonfacility.com" target="_blank" class="sonic-link">Visit Moon Facility</a>
+                    <a href="https://gamejolt.com/games/sonicmoonfacility/975042" target="_blank" class="sonic-link">Visit Moon Facility</a>
                 </div>
                 <div class="sonic-card">
                     <h3>Fallen Star</h3>
                     <p>An epic Sonic adventure with story-driven gameplay.</p>
-                    <a href="https://fallenstarsonic.com" target="_blank" class="sonic-link">Visit Fallen Star</a>
+                    <a href="https://stardropsmh.github.io/sonic-and-the-fallen-star/" target="_blank" class="sonic-link">Visit Fallen Star</a>
                 </div>
                 <div class="sonic-card">
                     <h3>SRB2 (Sonic Robo Blast 2)</h3>
@@ -705,7 +705,7 @@ def read_root():
                 <div class="sonic-card">
                     <h3>SRB2 Kart</h3>
                     <p>Racing fun with Sonic characters in this kart racing spin-off.</p>
-                    <a href="https://srb2.org/kart" target="_blank" class="sonic-link">Visit SRB2 Kart</a>
+                    <a href="https://mb.srb2.org/threads/srb2kart.25868/" target="_blank" class="sonic-link">Visit SRB2 Kart</a>
                 </div>
             </div>
         </div>
