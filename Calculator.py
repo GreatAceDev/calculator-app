@@ -22,7 +22,7 @@ def read_root():
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Ace</title>
+        <title>The Great Ace Hub</title>
         <style>
             :root {
                 --bg: #ffffff;
@@ -34,6 +34,29 @@ def read_root():
                 --muted: #64748b;
                 --border: rgba(100, 116, 139, 0.2);
                 font-family: 'Inter', system-ui, sans-serif;
+            }
+
+            .site-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                border-bottom: 1px solid rgba(100, 116, 139, 0.1);
+                padding: 1rem 2rem;
+            }
+
+            .logo-container {
+                display: flex;
+                align-items: center;
+            }
+
+            .site-logo {
+                height: 60px;
+                width: auto;
+                object-fit: contain;
             }
 
             * { box-sizing: border-box; }
@@ -50,7 +73,7 @@ def read_root():
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 2rem;
+                padding: 6rem 2rem 2rem;
                 position: relative;
                 max-width: 1200px;
                 margin: 0 auto;
@@ -530,9 +553,14 @@ def read_root():
         </style>
     </head>
     <body>
+        <header class="site-header">
+            <div class="logo-container">
+                <img src="/static/Untitled_design__2_2.04-removebg-preview.png" alt="Ace Hub Logo" class="site-logo">
+            </div>
+        </header>
         <div class="hero">
             <div class="hero-content">
-                <h1 class="brand">Ace</h1>
+                <h1 class="brand">The Great Ace Hub</h1>
                 <p class="tagline">Your hub for amazing apps and tools. Discover, download, and create.</p>
                 <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." />
                 <button class="cta-button" onclick="showCalculator()">Use Calculator</button>
@@ -571,8 +599,11 @@ def read_root():
         </div>
 
         <div class="sonic-section">
-            <h2>Check Out These Sonic Fan Games</h2>
-            <div class="sonic-grid">
+            <button class="sonic-toggle-btn" onclick="toggleSonicGames()">
+                <h2>Check Out These Sonic Fan Games</h2>
+                <span class="toggle-icon">▼</span>
+            </button>
+            <div class="sonic-grid" id="sonicGrid" style="display: none;">
                 <div class="sonic-card">
                     <h3>Moon Facility</h3>
                     <p>A challenging Sonic fan game with unique levels and mechanics.</p>
