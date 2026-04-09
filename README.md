@@ -1,6 +1,15 @@
+# Ace Hub
+
+An amazing Hub with access to all of my latest projects.
+Also, check out projects from other creators at the very bottom of the website (the more link will be fixed in the next month)
+
+# Universal Time Converter
+
+A quick and easy way to find out time in seconds, minutes, hours, days, months, and years.
+
 # Modern Calculator
 
-A beautiful, responsive calculator built with FastAPI and modern web technologies.
+A high-end, responsive calculator built with FastAPI and modern web technologies.
 
 ## Features
 
@@ -13,7 +22,7 @@ A beautiful, responsive calculator built with FastAPI and modern web technologie
 
 ## Live Demo
 
-Visit the live calculator at: [Your Railway URL - add it here]
+Visit the live calculator at: [ace-2c540.up.railway.app]
 
 ## How to Run Locally
 
@@ -32,14 +41,14 @@ Visit the live calculator at: [Your Railway URL - add it here]
    pip install -r requirements.txt
    ```
 
-3. **Run the calculator**
+3. **Run the Hub**
    ```bash
    python -m uvicorn Calculator:app --reload --port 8000
    ```
 
 4. **Open in browser**
    - Go to: `http://127.0.0.1:8000`
-   - Start calculating!
+   - Start exploring the hub!
 
 ### Keyboard Shortcuts
 - Numbers: `0-9`
@@ -51,7 +60,7 @@ Visit the live calculator at: [Your Railway URL - add it here]
 
 ## API Usage
 
-The calculator also provides API endpoints:
+The hub also provides API endpoints:
 
 ### Calculate Expression
 ```bash
@@ -84,7 +93,7 @@ calculator-app/
 - **Backend**: FastAPI (Python)
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Styling**: Custom CSS with glassmorphism effects
-- **Deployment**: Railway (optional)
+- **Deployment**: Railway and Render (optional)
 
 ## Contributing
 
@@ -94,4 +103,5 @@ Feel free to fork this project and add your own features!
 
 This project is open source and available under the MIT License.
 
-A 14-year-old Python learner! 🚀
+A 14-year-old Python learner, if you like, you can call me the Ace of Games! 🚀
+(I got a lot of help, though, about half of it was though help. This stuff takes too long.)
