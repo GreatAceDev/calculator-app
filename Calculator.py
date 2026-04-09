@@ -843,37 +843,27 @@ def read_root():
                 }
             });
 
-            // Keep track of which category is selected (starts at 'all')
-let currentCategory = 'all';
+            function filterApps() {
+    // 1. Get the search text and clean it up
+    const input = document.getElementById('searchBox');
+    if (!input) return;
+    const filter = input.value.toLowerCase().trim();
 
-function filterApps(category = currentCategory) {
-    currentCategory = category;
-    
-    // 1. Get what the user typed in the search box
-    const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-    const cards = document.querySelectorAll('.app-card');
-    const buttons = document.querySelectorAll('.tab-btn');
+    // 2. Find every "Featured App" container
+    // We search for 'div' because it's a safe bet for your cards
+    const cards = document.querySelectorAll('.featured-grid div, .app-card');
 
-    // 2. Update the button colors
-    buttons.forEach(btn => btn.classList.remove('active'));
-    // Only highlight a button if a category was actually clicked
-    if (event && event.target && event.target.classList.contains('tab-btn')) {
-        event.target.classList.add('active');
-    }
-
-    // 3. Loop through every card and decide to show or hide it
     cards.forEach(card => {
-        const title = card.querySelector('.app-title').textContent.toLowerCase();
-        const cardCategory = card.dataset.category;
-
-        const matchesCategory = (currentCategory === 'all' || cardCategory === currentCategory);
-        const matchesSearch = title.includes(searchTerm);
-
-        // Show the card ONLY if it matches BOTH the category and the search
-        if (matchesCategory && matchesSearch) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
+        // Only filter actual card elements (the ones with text inside)
+        if (card.innerText && card.innerText.length > 1) {
+            const text = card.innerText.toLowerCase();
+            
+            // Show the card if it contains the search text
+            if (text.includes(filter)) {
+                card.style.display = ""; // Standard display
+            } else {
+                card.style.display = "none"; // Hide it
+            }
         }
     });
 }
