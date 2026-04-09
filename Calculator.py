@@ -348,6 +348,142 @@ def read_root():
                 color: #0f172a;
             }
 
+            .time-converter-section {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+
+            .time-converter-section.show {
+                display: flex;
+            }
+
+            .time-converter {
+                width: min(500px, calc(100vw - 2rem));
+                border-radius: 32px;
+                padding: 2rem;
+                background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(30,41,59,0.95));
+                box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+                border: 1px solid rgba(148, 163, 184, 0.12);
+                position: relative;
+            }
+
+            .time-converter .close-btn {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: rgba(248, 113, 113, 0.18);
+                color: #fecaca;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .time-converter .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                gap: 1rem;
+            }
+
+            .time-converter .header h1 {
+                font-size: 1.4rem;
+                letter-spacing: 0.04em;
+                margin: 0;
+            }
+
+            .time-input-section {
+                margin-bottom: 1.5rem;
+            }
+
+            .time-input-group {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+                align-items: center;
+            }
+
+            .time-input-group label {
+                min-width: 80px;
+                color: var(--text);
+                font-weight: 600;
+            }
+
+            .time-input {
+                flex: 1;
+                padding: 0.8rem;
+                border-radius: 8px;
+                background: rgba(15, 23, 42, 0.8);
+                border: 1px solid rgba(148, 163, 184, 0.16);
+                color: var(--text);
+                font-size: 1rem;
+            }
+
+            .time-input:focus {
+                outline: none;
+                border-color: var(--accent);
+            }
+
+            .convert-btn {
+                width: 100%;
+                padding: 1rem;
+                border-radius: 12px;
+                background: linear-gradient(135deg, var(--accent), var(--accent-2));
+                color: var(--bg);
+                border: none;
+                font-weight: 600;
+                cursor: pointer;
+                transition: transform 0.2s ease;
+            }
+
+            .convert-btn:hover {
+                transform: translateY(-2px);
+            }
+
+            .results-section {
+                margin-top: 1.5rem;
+                padding: 1rem;
+                border-radius: 12px;
+                background: rgba(15, 23, 42, 0.6);
+                border: 1px solid rgba(148, 163, 184, 0.12);
+            }
+
+            .result-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+            }
+
+            .result-item:last-child {
+                border-bottom: none;
+            }
+
+            .result-label {
+                color: var(--muted);
+            }
+
+            .result-value {
+                color: var(--text);
+                font-weight: 600;
+            }
+
             @media (max-width: 768px) {
                 .hero {
                     flex-direction: column;
@@ -420,7 +556,11 @@ def read_root():
                     <div class="app-description">Convert between different text formats and encodings.</div>
                     <button class="app-download-btn" onclick="alert('Coming Soon!')">Download</button>
                 </div>
-                <div class="app-card" data-category="games">
+                <div class="app-card" data-category="utilities">
+                    <div class="app-title">Universal Time Converter</div>
+                    <div class="app-description">Convert between days, hours, minutes, months, and years with precision.</div>
+                    <button class="app-download-btn" onclick="showTimeConverter()">Use Now</button>
+                </div>
                     <div class="app-title">Sample Game</div>
                     <div class="app-description">Fun browser-based game available for download.</div>
                     <button class="app-download-btn" onclick="alert('Coming Soon!')">Download</button>
@@ -467,6 +607,40 @@ def read_root():
             </div>
         </div>
 
+        <div class="time-converter-section" id="timeConverterSection">
+            <div class="time-converter">
+                <button class="close-btn" onclick="hideTimeConverter()">×</button>
+                <div class="header">
+                    <div>
+                        <h1>Universal Time Converter</h1>
+                        <p style="margin: 0.25rem 0 0; color: var(--muted); font-size: 0.95rem;">Ace Edition</p>
+                    </div>
+                    <div style="text-align: right; color: var(--muted); font-size: 0.9rem;">Precision Time Math</div>
+                </div>
+                <div class="time-input-section">
+                    <div class="time-input-group">
+                        <label for="timeValue">Value:</label>
+                        <input type="number" id="timeValue" class="time-input" placeholder="Enter value" step="any">
+                    </div>
+                    <div class="time-input-group">
+                        <label for="timeUnit">From:</label>
+                        <select id="timeUnit" class="time-input">
+                            <option value="days">Days</option>
+                            <option value="hours">Hours</option>
+                            <option value="minutes">Minutes</option>
+                            <option value="months">Months</option>
+                            <option value="years">Years</option>
+                        </select>
+                    </div>
+                    <button class="convert-btn" onclick="convertTime()">Convert Time</button>
+                </div>
+                <div class="results-section" id="resultsSection" style="display: none;">
+                    <h3 style="margin: 0 0 1rem; color: var(--text);">Conversion Results:</h3>
+                    <div id="resultsList"></div>
+                </div>
+            </div>
+        </div>
+
         <script>
             const display = document.getElementById('output');
             const history = document.getElementById('history');
@@ -494,6 +668,13 @@ def read_root():
                 });
             });
 
+            // Time converter input Enter key support
+            document.getElementById('timeValue').addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    convertTime();
+                }
+            });
+
             function filterApps(category) {
                 currentFilter = category;
                 const cards = document.querySelectorAll('.app-card');
@@ -517,6 +698,87 @@ def read_root():
 
             function hideCalculator() {
                 document.getElementById('calculatorSection').classList.remove('show');
+            }
+
+            function showTimeConverter() {
+                document.getElementById('timeConverterSection').classList.add('show');
+            }
+
+            function hideTimeConverter() {
+                document.getElementById('timeConverterSection').classList.remove('show');
+                // Reset form
+                document.getElementById('timeValue').value = '';
+                document.getElementById('timeUnit').value = 'days';
+                document.getElementById('resultsSection').style.display = 'none';
+            }
+
+            function convertTime() {
+                const value = parseFloat(document.getElementById('timeValue').value);
+                const unit = document.getElementById('timeUnit').value;
+                
+                if (isNaN(value) || value <= 0) {
+                    alert('Please enter a valid positive number');
+                    return;
+                }
+                
+                let days, hours, minutes, seconds, months, years;
+                
+                // Convert to base unit (days)
+                switch(unit) {
+                    case 'days':
+                        days = value;
+                        break;
+                    case 'hours':
+                        days = value / 24;
+                        break;
+                    case 'minutes':
+                        days = value / 1440; // 24 * 60
+                        break;
+                    case 'months':
+                        days = value * 30.44; // Average month
+                        break;
+                    case 'years':
+                        days = value * 365.25; // Average year with leap years
+                        break;
+                }
+                
+                // Convert from days to all other units
+                hours = days * 24;
+                minutes = hours * 60;
+                seconds = minutes * 60;
+                months = days / 30.44;
+                years = days / 365.25;
+                
+                // Display results
+                const resultsList = document.getElementById('resultsList');
+                resultsList.innerHTML = `
+                    <div class="result-item">
+                        <span class="result-label">Days:</span>
+                        <span class="result-value">${days.toFixed(4)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Hours:</span>
+                        <span class="result-value">${hours.toFixed(2)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Minutes:</span>
+                        <span class="result-value">${minutes.toFixed(2)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Seconds:</span>
+                        <span class="result-value">${seconds.toFixed(2)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Months:</span>
+                        <span class="result-value">${months.toFixed(4)}</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Years:</span>
+                        <span class="result-value">${years.toFixed(4)}</span>
+                    </div>
+                `;
+                
+                document.getElementById('resultsSection').style.display = 'block';
             }
 
             function updateDisplay() {
