@@ -730,7 +730,7 @@ def read_root():
                     </div>
                 </div>
                 <div class="footer-info">
-                    <p>&copy; 2026 Ace App Hub. Made with ❤️ for the Sonic community.</p>
+                    <p>&copy; 2026 Ace App Hub. Made for you and the Sonic community.</p>
                     <p>Built with FastAPI, featuring calculator and time converter tools.</p>
                 </div>
             </div>
