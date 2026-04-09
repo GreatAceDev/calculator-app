@@ -10,6 +10,10 @@ app.mount("/static", StaticFiles(directory="Static"), name="static")
 class CalculationRequest(BaseModel):
     expression: str
 
+class TimeConversionRequest(BaseModel):
+    value: float
+    unit: str
+
 @app.get("/", response_class=HTMLResponse)
 def read_root():
     html_content = """
@@ -721,64 +725,55 @@ def read_root():
                     return;
                 }
                 
-                let days, hours, minutes, seconds, months, years;
-                
-                // Convert to base unit (days)
-                switch(unit) {
-                    case 'days':
-                        days = value;
-                        break;
-                    case 'hours':
-                        days = value / 24;
-                        break;
-                    case 'minutes':
-                        days = value / 1440; // 24 * 60
-                        break;
-                    case 'months':
-                        days = value * 30.44; // Average month
-                        break;
-                    case 'years':
-                        days = value * 365.25; // Average year with leap years
-                        break;
-                }
-                
-                // Convert from days to all other units
-                hours = days * 24;
-                minutes = hours * 60;
-                seconds = minutes * 60;
-                months = days / 30.44;
-                years = days / 365.25;
-                
-                // Display results
-                const resultsList = document.getElementById('resultsList');
-                resultsList.innerHTML = `
-                    <div class="result-item">
-                        <span class="result-label">Days:</span>
-                        <span class="result-value">${days.toFixed(4)}</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Hours:</span>
-                        <span class="result-value">${hours.toFixed(2)}</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Minutes:</span>
-                        <span class="result-value">${minutes.toFixed(2)}</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Seconds:</span>
-                        <span class="result-value">${seconds.toFixed(2)}</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Months:</span>
-                        <span class="result-value">${months.toFixed(4)}</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Years:</span>
-                        <span class="result-value">${years.toFixed(4)}</span>
-                    </div>
-                `;
-                
-                document.getElementById('resultsSection').style.display = 'block';
+                // Call the API endpoint
+                fetch('/api/convert-time', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ value: value, unit: unit })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => {
+                            throw new Error(err.detail || 'Conversion failed');
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Display results
+                    const resultsList = document.getElementById('resultsList');
+                    resultsList.innerHTML = `
+                        <div class="result-item">
+                            <span class="result-label">Days:</span>
+                            <span class="result-value">${data.days}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Hours:</span>
+                            <span class="result-value">${data.hours}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Minutes:</span>
+                            <span class="result-value">${data.minutes}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Seconds:</span>
+                            <span class="result-value">${data.seconds}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Months:</span>
+                            <span class="result-value">${data.months}</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Years:</span>
+                            <span class="result-value">${data.years}</span>
+                        </div>
+                    `;
+                    
+                    document.getElementById('resultsSection').style.display = 'block';
+                })
+                .catch(error => {
+                    alert('Error: ' + error.message);
+                });
             }
 
             function updateDisplay() {
@@ -882,6 +877,40 @@ def compute_result(expression: str):
     return result
 
 
+def convert_time(value: float, unit: str):
+    unit = unit.lower()
+    
+    # Convert to base unit (days)
+    if unit == 'days':
+        days = value
+    elif unit == 'hours':
+        days = value / 24
+    elif unit == 'minutes':
+        days = value / 1440  # 24 * 60
+    elif unit == 'months':
+        days = value * 30.44  # Average month
+    elif unit == 'years':
+        days = value * 365.25  # Average year with leap years
+    else:
+        raise ValueError(f"Invalid unit: {unit}")
+    
+    # Convert from days to all other units
+    hours = days * 24
+    minutes = hours * 60
+    seconds = minutes * 60
+    months = days / 30.44
+    years = days / 365.25
+    
+    return {
+        'days': round(days, 4),
+        'hours': round(hours, 2),
+        'minutes': round(minutes, 2),
+        'seconds': round(seconds, 2),
+        'months': round(months, 4),
+        'years': round(years, 4)
+    }
+
+
 @app.get("/ap/calc")
 def calc(expression: str):
     expression = expression.strip()
@@ -906,3 +935,19 @@ def evaluate(request: CalculationRequest):
         return JSONResponse(content={"result": result})
     except Exception as exc:
         raise HTTPException(status_code=400, detail=f"Invalid expression: {exc}")
+
+
+@app.post("/api/convert-time")
+def convert_time_endpoint(request: TimeConversionRequest):
+    if request.value <= 0:
+        raise HTTPException(status_code=400, detail="Value must be positive.")
+    
+    valid_units = ['days', 'hours', 'minutes', 'months', 'years']
+    if request.unit.lower() not in valid_units:
+        raise HTTPException(status_code=400, detail=f"Invalid unit. Must be one of: {', '.join(valid_units)}")
+    
+    try:
+        result = convert_time(request.value, request.unit)
+        return JSONResponse(content=result)
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"Conversion error: {exc}")
