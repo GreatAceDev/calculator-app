@@ -205,6 +205,87 @@ def read_root():
                 box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
             }
 
+            .sonic-section {
+                margin-top: 3rem;
+                padding: 1rem;
+                border-radius: 20px;
+                background: rgba(248, 250, 252, 0.95);
+                border: 1px solid rgba(100, 116, 139, 0.15);
+            }
+
+            .sonic-toggle-btn {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 1.25rem;
+                border-radius: 16px;
+                background: #ffffff;
+                border: 1px solid rgba(100, 116, 139, 0.2);
+                cursor: pointer;
+                font-size: 1rem;
+                font-weight: 700;
+                color: var(--text);
+                transition: background 0.2s ease, transform 0.2s ease;
+            }
+
+            .sonic-toggle-btn:hover {
+                background: #f1f5f9;
+                transform: translateY(-1px);
+            }
+
+            .sonic-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .sonic-card {
+                padding: 1rem;
+                border-radius: 18px;
+                background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(241,245,249,0.95));
+                border: 1px solid rgba(100, 116, 139, 0.15);
+                box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+            }
+
+            .sonic-card h3 {
+                margin: 0 0 0.5rem;
+                color: var(--text);
+            }
+
+            .sonic-card p {
+                margin: 0 0 1rem;
+                color: var(--muted);
+                line-height: 1.5;
+            }
+
+            .sonic-link {
+                display: inline-flex;
+                align-items: center;
+                padding: 0.8rem 1rem;
+                border-radius: 14px;
+                background: linear-gradient(135deg, var(--accent), var(--accent-2));
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 600;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .sonic-link:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+            }
+
+            .toggle-icon {
+                font-size: 1.2rem;
+                transition: transform 0.2s ease;
+            }
+
+            .toggle-icon.open {
+                transform: rotate(180deg);
+            }
+
             .brand {
                 font-family: 'Brush Script MT', cursive;
                 font-size: clamp(4rem, 12vw, 8rem);
@@ -592,6 +673,7 @@ def read_root():
                     <div class="app-description">Convert between days, hours, minutes, months, and years with precision.</div>
                     <button class="app-download-btn" onclick="showTimeConverter()">Use Now</button>
                 </div>
+                <div class="app-card" data-category="games">
                     <div class="app-title">Sample Game</div>
                     <div class="app-description">Fun browser-based game available for download.</div>
                     <button class="app-download-btn" onclick="alert('Coming Soon!')">Download</button>
@@ -796,6 +878,14 @@ def read_root():
                 document.getElementById('timeValue').value = '';
                 document.getElementById('timeUnit').value = 'days';
                 document.getElementById('resultsSection').style.display = 'none';
+            }
+
+            function toggleSonicGames() {
+                const sonicGrid = document.getElementById('sonicGrid');
+                const icon = document.querySelector('.toggle-icon');
+                const isHidden = sonicGrid.style.display === 'none' || sonicGrid.style.display === '';
+                sonicGrid.style.display = isHidden ? 'grid' : 'none';
+                icon.classList.toggle('open', isHidden);
             }
 
             function convertTime() {
