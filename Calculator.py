@@ -644,7 +644,7 @@ def read_root():
             <div class="hero-content">
                 <h1 class="brand">The Great Ace Hub</h1>
                 <p class="tagline">Your hub for amazing apps and tools. Discover, download, and create.</p>
-                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." />
+                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." onkeyup="filterApps(this.value)">
                 <button class="cta-button" onclick="showCalculator()">Use Calculator</button>
             </div>
         </div>
