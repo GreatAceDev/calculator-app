@@ -1,9 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import math
 
-app = FastAPI(title="Modern Calculator API")
+app = FastAPI(title="Ace")
+app.mount("/static", StaticFiles(directory="Static"), name="static")
 
 class CalculationRequest(BaseModel):
     expression: str
@@ -16,7 +18,7 @@ def read_root():
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Modern Calculator</title>
+        <title>Ace</title>
         <style>
             :root {
                 --bg: #0f172a;
@@ -26,23 +28,216 @@ def read_root():
                 --accent-2: #8b5cf6;
                 --text: #e2e8f0;
                 --muted: #94a3b8;
-                --danger: #f87171;
-                font-family: Inter, system-ui, sans-serif;
+                --border: rgba(148, 163, 184, 0.18);
+                font-family: 'Inter', system-ui, sans-serif;
             }
 
-            * {
-                box-sizing: border-box;
-            }
-
+            * { box-sizing: border-box; }
             body {
                 margin: 0;
                 min-height: 100vh;
-                display: grid;
-                place-items: center;
-                background: radial-gradient(circle at top, rgba(56, 189, 248, 0.16), transparent 32%),
-                            radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.18), transparent 28%),
+                background: radial-gradient(circle at top, rgba(56, 189, 248, 0.18), transparent 30%),
+                            radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.16), transparent 35%),
                             var(--bg);
                 color: var(--text);
+                overflow-x: hidden;
+            }
+
+            .hero {
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                position: relative;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .hero-content {
+                flex: 1;
+                text-align: center;
+                z-index: 2;
+                position: relative;
+            }
+
+            .logo {
+                display: none;
+            }
+
+            .search-box {
+                width: 100%;
+                max-width: 500px;
+                padding: 1rem 1.5rem;
+                border-radius: 50px;
+                background: rgba(30, 41, 59, 0.8);
+                border: 2px solid rgba(56, 189, 248, 0.3);
+                color: var(--text);
+                font-size: 1rem;
+                margin-bottom: 2rem;
+                transition: border-color 0.2s ease;
+            }
+
+            .search-box:focus {
+                outline: none;
+                border-color: var(--accent);
+                box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+            }
+
+            .apps-section {
+                width: 100%;
+                margin-top: 4rem;
+                padding-top: 3rem;
+                border-top: 1px solid rgba(148, 163, 184, 0.16);
+            }
+
+            .apps-section h2 {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+                color: var(--text);
+                text-align: center;
+            }
+
+            .tabs {
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin-bottom: 3rem;
+            }
+
+            .tab-btn {
+                padding: 0.8rem 1.5rem;
+                border-radius: 25px;
+                border: 2px solid rgba(56, 189, 248, 0.3);
+                background: transparent;
+                color: var(--text);
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.2s ease;
+            }
+
+            .tab-btn:hover {
+                border-color: var(--accent);
+                background: rgba(56, 189, 248, 0.1);
+            }
+
+            .tab-btn.active {
+                background: linear-gradient(135deg, var(--accent), var(--accent-2));
+                border-color: transparent;
+                color: var(--bg);
+            }
+
+            .app-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem;
+            }
+
+            .app-card {
+                border-radius: 16px;
+                background: linear-gradient(180deg, rgba(30,41,59,0.6), rgba(15,23,42,0.8));
+                border: 1px solid rgba(148, 163, 184, 0.12);
+                padding: 1.5rem;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .app-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 40px rgba(56, 189, 248, 0.15);
+                border-color: rgba(56, 189, 248, 0.3);
+            }
+
+            .app-title {
+                font-size: 1.3rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+                color: var(--text);
+            }
+
+            .app-description {
+                font-size: 0.95rem;
+                color: var(--muted);
+                margin-bottom: 1.5rem;
+                line-height: 1.5;
+            }
+
+            .app-download-btn {
+                padding: 0.8rem 1.5rem;
+                border-radius: 20px;
+                background: linear-gradient(135deg, var(--accent), var(--accent-2));
+                color: var(--bg);
+                border: none;
+                font-weight: 600;
+                cursor: pointer;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .app-download-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(56, 189, 248, 0.3);
+            }
+
+            .brand {
+                font-family: 'Brush Script MT', cursive;
+                font-size: clamp(4rem, 12vw, 8rem);
+                font-weight: normal;
+                background: linear-gradient(135deg, var(--accent), var(--accent-2));
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin: 0 0 1rem;
+                letter-spacing: 0.1em;
+            }
+
+            .tagline {
+                font-size: 1.4rem;
+                color: var(--muted);
+                margin: 0 0 3rem;
+                max-width: 600px;
+                line-height: 1.6;
+            }
+
+            .cta-button {
+                padding: 1.2rem 2.5rem;
+                border-radius: 50px;
+                background: linear-gradient(135deg, var(--accent), var(--accent-2));
+                color: var(--bg);
+                font-weight: 700;
+                font-size: 1.2rem;
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 18px 40px rgba(56, 189, 248, 0.15);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                cursor: pointer;
+                border: none;
+            }
+
+            .cta-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 25px 60px rgba(56, 189, 248, 0.25);
+            }
+
+            .calculator-section {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(10px);
+                z-index: 1000;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+
+            .calculator-section.show {
+                display: flex;
             }
 
             .calculator {
@@ -52,6 +247,24 @@ def read_root():
                 background: linear-gradient(180deg, rgba(15,23,42,0.98), rgba(30,41,59,0.95));
                 box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
                 border: 1px solid rgba(148, 163, 184, 0.12);
+                position: relative;
+            }
+
+            .close-btn {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: rgba(248, 113, 113, 0.18);
+                color: #fecaca;
+                border: none;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                cursor: pointer;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .header {
@@ -59,6 +272,7 @@ def read_root():
                 justify-content: space-between;
                 align-items: center;
                 margin-bottom: 1.5rem;
+                gap: 1rem;
             }
 
             .header h1 {
@@ -95,7 +309,7 @@ def read_root():
                 grid-template-columns: repeat(4, minmax(0, 1fr));
             }
 
-            button {
+            .calculator button {
                 border: none;
                 border-radius: 18px;
                 padding: 1rem;
@@ -108,30 +322,49 @@ def read_root():
                 box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.06);
             }
 
-            button:hover {
+            .calculator button:hover {
                 transform: translateY(-1px);
                 background: rgba(148, 163, 184, 0.14);
             }
 
-            button:active {
+            .calculator button:active {
                 transform: translateY(0);
                 background: rgba(148, 163, 184, 0.2);
             }
 
-            button.operator {
+            .calculator button.operator {
                 background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(139, 92, 246, 0.22));
                 color: #eff6ff;
             }
 
-            button.clear {
+            .calculator button.clear {
                 background: rgba(248, 113, 113, 0.18);
                 color: #fecaca;
             }
 
-            button.equals {
+            .calculator button.equals {
                 grid-column: span 2;
                 background: linear-gradient(135deg, #38bdf8, #8b5cf6);
                 color: #0f172a;
+            }
+
+            @media (max-width: 768px) {
+                .hero {
+                    flex-direction: column;
+                    text-align: center;
+                }
+
+                .hero-content {
+                    margin-right: 0;
+                    margin-top: 2rem;
+                }
+
+                .logo {
+                    width: 250px;
+                    height: 250px;
+                    top: -30px;
+                    left: -30px;
+                }
             }
 
             @media (max-width: 420px) {
@@ -144,55 +377,103 @@ def read_root():
                     font-size: 1.75rem;
                 }
 
-                button {
+                .calculator button {
                     padding: 0.85rem;
                     font-size: 1rem;
+                }
+
+                .logo {
+                    width: 200px;
+                    height: 200px;
+                    top: -20px;
+                    left: -20px;
                 }
             }
         </style>
     </head>
     <body>
-        <div class="calculator">
-            <div class="header">
-                <div>
-                    <h1>Modern Calculator</h1>
-                    <p style="margin: 0.25rem 0 0; color: var(--muted); font-size: 0.95rem;">Powered by FastAPI</p>
+        <div class="hero">
+            <div class="hero-content">
+                <h1 class="brand">Ace</h1>
+                <p class="tagline">Your hub for amazing apps and tools. Discover, download, and create.</p>
+                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." />
+                <button class="cta-button" onclick="showCalculator()">Use Calculator</button>
+            </div>
+        </div>
+
+        <div class="apps-section">
+            <h2>Featured Apps</h2>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="filterApps('all')">All Apps</button>
+                <button class="tab-btn" onclick="filterApps('tools')">Tools</button>
+                <button class="tab-btn" onclick="filterApps('games')">Games</button>
+                <button class="tab-btn" onclick="filterApps('utilities')">Utilities</button>
+            </div>
+            <div class="app-grid" id="appGrid">
+                <div class="app-card" data-category="tools">
+                    <div class="app-title">Modern Calculator</div>
+                    <div class="app-description">A powerful calculator with keyboard support and API integration.</div>
+                    <button class="app-download-btn" onclick="showCalculator()">Use Now</button>
                 </div>
-                <div style="text-align: right; color: var(--muted); font-size: 0.9rem;">API-driven UX</div>
+                <div class="app-card" data-category="tools">
+                    <div class="app-title">Text Converter</div>
+                    <div class="app-description">Convert between different text formats and encodings.</div>
+                    <button class="app-download-btn" onclick="alert('Coming Soon!')">Download</button>
+                </div>
+                <div class="app-card" data-category="games">
+                    <div class="app-title">Sample Game</div>
+                    <div class="app-description">Fun browser-based game available for download.</div>
+                    <button class="app-download-btn" onclick="alert('Coming Soon!')">Download</button>
+                </div>
             </div>
-            <div class="display" id="display">
-                <div class="subtext" id="history">Ready</div>
-                <div id="output">0</div>
-            </div>
-            <div class="keypad">
-                <button class="clear" data-key="clear">AC</button>
-                <button class="operator" data-key="(">(</button>
-                <button class="operator" data-key=")">)</button>
-                <button class="operator" data-key="/">÷</button>
-                <button data-key="7">7</button>
-                <button data-key="8">8</button>
-                <button data-key="9">9</button>
-                <button class="operator" data-key="*">×</button>
-                <button data-key="4">4</button>
-                <button data-key="5">5</button>
-                <button data-key="6">6</button>
-                <button class="operator" data-key="-">−</button>
-                <button data-key="1">1</button>
-                <button data-key="2">2</button>
-                <button data-key="3">3</button>
-                <button class="operator" data-key="+">+</button>
-                <button data-key="0">0</button>
-                <button data-key=".">.</button>
-                <button class="operator" data-key="^">^</button>
-                <button class="equals" data-key="=">=</button>
+        </div>
+
+        <div class="calculator-section" id="calculatorSection">
+            <div class="calculator">
+                <button class="close-btn" onclick="hideCalculator()">×</button>
+                <div class="header">
+                    <div>
+                        <h1>Modern Calculator</h1>
+                        <p style="margin: 0.25rem 0 0; color: var(--muted); font-size: 0.95rem;">Powered by FastAPI</p>
+                    </div>
+                    <div style="text-align: right; color: var(--muted); font-size: 0.9rem;">API-driven UX</div>
+                </div>
+                <div class="display" id="display">
+                    <div class="subtext" id="history">Ready</div>
+                    <div id="output">0</div>
+                </div>
+                <div class="keypad">
+                    <button class="clear" data-key="clear">AC</button>
+                    <button class="operator" data-key="(">(</button>
+                    <button class="operator" data-key=")">)</button>
+                    <button class="operator" data-key="/">÷</button>
+                    <button data-key="7">7</button>
+                    <button data-key="8">8</button>
+                    <button data-key="9">9</button>
+                    <button class="operator" data-key="*">×</button>
+                    <button data-key="4">4</button>
+                    <button data-key="5">5</button>
+                    <button data-key="6">6</button>
+                    <button class="operator" data-key="-">−</button>
+                    <button data-key="1">1</button>
+                    <button data-key="2">2</button>
+                    <button data-key="3">3</button>
+                    <button class="operator" data-key="+">+</button>
+                    <button data-key="0">0</button>
+                    <button data-key=".">.</button>
+                    <button class="operator" data-key="^">^</button>
+                    <button class="equals" data-key="=">=</button>
+                </div>
             </div>
         </div>
 
         <script>
             const display = document.getElementById('output');
             const history = document.getElementById('history');
+            const searchBox = document.getElementById('searchBox');
             let expression = '';
             let justCalculated = false;
+            let currentFilter = 'all';
 
             const buttonElements = document.querySelectorAll('button[data-key]');
             buttonElements.forEach((button) => {
@@ -202,22 +483,41 @@ def read_root():
                 });
             });
 
-            // Add keyboard support
-            document.addEventListener('keydown', (event) => {
-                const key = event.key;
-                const keyMappings = {
-                    '0': '0', '1': '1', '2': '2', '3': '3', '4': '4',
-                    '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
-                    '+': '+', '-': '-', '*': '*', '/': '/', '^': '^',
-                    '(': '(', ')': ')', '.': '.', '=': '=', 'Enter': '=',
-                    'Escape': 'clear', 'Delete': 'clear', 'Backspace': 'clear'
-                };
-
-                if (keyMappings[key]) {
-                    event.preventDefault(); // Prevent default browser behavior
-                    handleKey(keyMappings[key]);
-                }
+            searchBox.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.app-card');
+                cards.forEach(card => {
+                    const title = card.querySelector('.app-title').textContent.toLowerCase();
+                    const description = card.querySelector('.app-description').textContent.toLowerCase();
+                    const matches = title.includes(searchTerm) || description.includes(searchTerm);
+                    card.style.display = matches ? 'block' : 'none';
+                });
             });
+
+            function filterApps(category) {
+                currentFilter = category;
+                const cards = document.querySelectorAll('.app-card');
+                const buttons = document.querySelectorAll('.tab-btn');
+                
+                buttons.forEach(btn => btn.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                cards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+
+            function showCalculator() {
+                document.getElementById('calculatorSection').classList.add('show');
+            }
+
+            function hideCalculator() {
+                document.getElementById('calculatorSection').classList.remove('show');
+            }
 
             function updateDisplay() {
                 display.textContent = expression || '0';
@@ -241,7 +541,6 @@ def read_root():
                     return;
                 }
 
-                // If we just calculated a result and user presses a number, start new expression
                 if (justCalculated && !isNaN(key) && key !== '.') {
                     expression = key;
                     justCalculated = false;
@@ -249,11 +548,8 @@ def read_root():
                     return;
                 }
 
-                // If we just calculated and user presses an operator, continue with result
                 if (justCalculated && ['+', '-', '*', '/', '^', '(', ')'].includes(key)) {
-                    // Keep the current result and add the operator
                     justCalculated = false;
-                    // expression is already the result, so just append the operator
                 } else {
                     justCalculated = false;
                 }
@@ -261,6 +557,21 @@ def read_root():
                 expression += key;
                 updateDisplay();
             }
+
+            document.addEventListener('keydown', (event) => {
+                const accepted = ['0','1','2','3','4','5','6','7','8','9','+','-','*','/','^','(',')','.','=','Enter','Escape','Delete','Backspace'];
+                if (!accepted.includes(event.key)) {
+                    return;
+                }
+                event.preventDefault();
+                const keyMappings = {
+                    'Enter': '=',
+                    'Escape': 'clear',
+                    'Delete': 'clear',
+                    'Backspace': 'clear'
+                };
+                handleKey(keyMappings[event.key] || event.key);
+            });
 
             async function evaluateExpression(expr) {
                 try {
