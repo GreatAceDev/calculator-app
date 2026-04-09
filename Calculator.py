@@ -644,7 +644,7 @@ def read_root():
             <div class="hero-content">
                 <h1 class="brand">The Great Ace Hub</h1>
                 <p class="tagline">Your hub for amazing apps and tools. Discover, download, and create.</p>
-                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." onkeyup="filterApps(this.value)">
+                <input type="text" class="search-box" id="searchBox" placeholder="Search apps..." onkeyup="filterApps(this.value)"
                 <button class="cta-button" onclick="showCalculator()">Use Calculator</button>
             </div>
         </div>
@@ -843,21 +843,41 @@ def read_root():
                 }
             });
 
-            function filterApps(category) {
-                currentFilter = category;
-                const cards = document.querySelectorAll('.app-card');
-                const buttons = document.querySelectorAll('.tab-btn');
-                
-                buttons.forEach(btn => btn.classList.remove('active'));
-                event.target.classList.add('active');
-                
-                cards.forEach(card => {
-                    if (category === 'all' || card.dataset.category === category) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+            // Keep track of which category is selected (starts at 'all')
+let currentCategory = 'all';
+
+function filterApps(category = currentCategory) {
+    currentCategory = category;
+    
+    // 1. Get what the user typed in the search box
+    const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+    const cards = document.querySelectorAll('.app-card');
+    const buttons = document.querySelectorAll('.tab-btn');
+
+    // 2. Update the button colors
+    buttons.forEach(btn => btn.classList.remove('active'));
+    // Only highlight a button if a category was actually clicked
+    if (event && event.target && event.target.classList.contains('tab-btn')) {
+        event.target.classList.add('active');
+    }
+
+    // 3. Loop through every card and decide to show or hide it
+    cards.forEach(card => {
+        const title = card.querySelector('.app-title').textContent.toLowerCase();
+        const cardCategory = card.dataset.category;
+
+        const matchesCategory = (currentCategory === 'all' || cardCategory === currentCategory);
+        const matchesSearch = title.includes(searchTerm);
+
+        // Show the card ONLY if it matches BOTH the category and the search
+        if (matchesCategory && matchesSearch) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
             }
 
             function showCalculator() {
