@@ -1,11 +1,14 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import math
 
 app = FastAPI(title="Ace")
 app.mount("/static", StaticFiles(directory="Static"), name="static")
+@app.get('/favicon.ico', include_in_schema=False)
+async def favicon():
+    return FileResponse("Static/favicon.ico")
 
 class CalculationRequest(BaseModel):
     expression: str
@@ -20,6 +23,7 @@ def read_root():
     <!DOCTYPE html>
     <html lang="en">
     <head>
+    <link rel="icon" type="image/x-icon" href="/static/favicon.ico">
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>The Great Ace Hub</title>
