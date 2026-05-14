@@ -149,29 +149,30 @@
         }
 
         .panel-toggle-btn {
-            background: linear-gradient(135deg, #38bdf8, #8b5cf6);
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 0 16px 16px 0;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            width: 60px;
+            height: 60px;
+            border-radius: 0 999px 999px 0;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0f172a;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            font-weight: bold;
+            color: #f8fafc;
+            font-size: 1.65rem;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            font-weight: 800;
             position: fixed;
             right: 0;
-            top: 50%;
+            top: 45%;
             transform: translateY(-50%);
-            z-index: 999;
-            box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+            z-index: 9999;
+            box-shadow: -8px 0 24px rgba(0, 0, 0, 0.35);
         }
 
         .panel-toggle-btn:hover {
-            transform: translateY(-50%) scale(1.05);
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: -12px 0 28px rgba(0, 0, 0, 0.4);
         }
 
         .side-panel h2 {
