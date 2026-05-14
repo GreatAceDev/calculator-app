@@ -635,6 +635,112 @@ def read_root():
                     top: -20px;
                     left: -20px;
                 }
+
+                .side-panel {
+                    width: 220px;
+                    padding: 1.5rem 1rem;
+                }
+
+                .panel-toggle-btn {
+                    width: 50px;
+                    height: 50px;
+                    font-size: 1.4rem;
+                }
+            }
+
+            .side-panel-container {
+                position: fixed;
+                right: 0;
+                top: 0;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                z-index: 10000;
+                pointer-events: none;
+            }
+
+            .side-panel {
+                background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(241, 245, 249, 0.98));
+                border: 1px solid rgba(100, 116, 139, 0.2);
+                border-right: none;
+                padding: 2rem 1.5rem;
+                width: 280px;
+                height: 100%;
+                overflow-y: auto;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                box-shadow: -8px 0 32px rgba(15, 23, 42, 0.12);
+                pointer-events: auto;
+            }
+
+            .side-panel.active {
+                transform: translateX(0);
+            }
+
+            .panel-toggle-btn {
+                background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+                border: none;
+                width: 60px;
+                height: 60px;
+                border-radius: 0 999px 999px 0;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #ffffff;
+                font-size: 1.65rem;
+                transition: transform 0.25s ease, box-shadow 0.25s ease;
+                font-weight: 800;
+                position: fixed;
+                right: 0;
+                top: 45%;
+                transform: translateY(-50%);
+                z-index: 10001;
+                box-shadow: -8px 0 24px rgba(15, 23, 42, 0.2);
+                pointer-events: auto;
+            }
+
+            .panel-toggle-btn:hover {
+                transform: translateY(-50%) scale(1.05);
+                box-shadow: -10px 0 28px rgba(15, 23, 42, 0.3);
+            }
+
+            .side-panel h2 {
+                font-size: 1.25rem;
+                margin: 0 0 1.5rem 0;
+                color: var(--text);
+                letter-spacing: 0.01em;
+            }
+
+            .side-panel-links {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .side-panel-link {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 1rem;
+                border-radius: 18px;
+                background: rgba(59, 130, 246, 0.08);
+                border: 1px solid rgba(59, 130, 246, 0.2);
+                text-decoration: none;
+                color: var(--text);
+                font-weight: 600;
+                transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+            }
+
+            .side-panel-link:hover {
+                transform: translateX(-4px);
+                background: rgba(59, 130, 246, 0.14);
+                border-color: rgba(59, 130, 246, 0.35);
+            }
+
+            .side-panel-icon {
+                font-size: 1.4rem;
+                min-width: 24px;
             }
         </style>
     </head>
@@ -740,6 +846,23 @@ def read_root():
             </div>
         </div>
 
+        <div class="side-panel-container">
+            <div class="side-panel" id="sidePanel">
+                <h2>Follow Me</h2>
+                <div class="side-panel-links">
+                    <a href="https://www.youtube.com/@AceNov-X" target="_blank" rel="noopener noreferrer" class="side-panel-link">
+                        <span class="side-panel-icon">▶</span>
+                        <span>YouTube</span>
+                    </a>
+                    <a href="https://discord.com" target="_blank" rel="noopener noreferrer" class="side-panel-link">
+                        <span class="side-panel-icon">💬</span>
+                        <span>Discord</span>
+                    </a>
+                </div>
+            </div>
+            <button class="panel-toggle-btn" id="panelToggle">‹</button>
+        </div>
+
         <div class="calculator-section" id="calculatorSection">
             <div class="calculator">
                 <button class="close-btn" onclick="hideCalculator()">×</button>
@@ -817,9 +940,23 @@ def read_root():
             const display = document.getElementById('output');
             const history = document.getElementById('history');
             const searchBox = document.getElementById('searchBox');
+            const panelToggle = document.getElementById('panelToggle');
+            const sidePanel = document.getElementById('sidePanel');
             let expression = '';
             let justCalculated = false;
             let currentFilter = 'all';
+
+            panelToggle.addEventListener('click', () => {
+                sidePanel.classList.toggle('active');
+                panelToggle.textContent = sidePanel.classList.contains('active') ? '›' : '‹';
+            });
+
+            document.querySelectorAll('.side-panel-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    sidePanel.classList.remove('active');
+                    panelToggle.textContent = '‹';
+                });
+            });
 
             const buttonElements = document.querySelectorAll('button[data-key]');
             buttonElements.forEach((button) => {
