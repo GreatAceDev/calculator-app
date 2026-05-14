@@ -2,6 +2,23 @@ const display = document.getElementById('output');
 const history = document.getElementById('history');
 let expression = '';
 
+// Side panel toggle functionality
+const panelToggle = document.getElementById('panelToggle');
+const sidePanel = document.getElementById('sidePanel');
+
+panelToggle.addEventListener('click', () => {
+    sidePanel.classList.toggle('active');
+    panelToggle.textContent = sidePanel.classList.contains('active') ? '›' : '‹';
+});
+
+// Close panel when clicking on a link
+document.querySelectorAll('.social-link').forEach(link => {
+    link.addEventListener('click', () => {
+        sidePanel.classList.remove('active');
+        panelToggle.textContent = '‹';
+    });
+});
+
 const buttonElements = document.querySelectorAll('button[data-key]');
 buttonElements.forEach((button) => {
     button.addEventListener('click', () => {
